@@ -1,0 +1,630 @@
+{
+  "contractName": "ReentryProtector",
+  "abi": [],
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a72305820dd29c3a78bb00f23b1e59dc157e9cf53b64cbf21bff8ba37d11f688c46e645e60029",
+  "deployedBytecode": "0x6080604052600080fd00a165627a7a72305820dd29c3a78bb00f23b1e59dc157e9cf53b64cbf21bff8ba37d11f688c46e645e60029",
+  "sourceMap": "72:998:3:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;72:998:3;;;;;;;",
+  "deployedSourceMap": "72:998:3:-;;;;;",
+  "source": "pragma solidity ^0.4.24;\n\n/// @title help avoid recursive-call attacks.\ncontract ReentryProtector {\n\n    // true if we are inside an external function\n    bool reentryProtector;\n\n    // Mark contract as having entered an external function.\n    // Throws an exception if called twice with no externalLeave().\n    // For this to work, Contracts MUST:\n    //  - call externalEnter() at the start of each external function\n    //  - call externalLeave() at the end of each external function\n    //  - never use return statements in between enter and leave\n    //  - never call an external function from another function\n    // WARN: serious risk of contract getting stuck if used wrongly.\n    // TODO: use revert or require, need to check\n    function externalEnter() internal {\n        if (reentryProtector) {\n            revert();\n        }\n        reentryProtector = true;\n    }\n\n    // Mark contract as having left an external function.\n    // Do this after each call to externalEnter().\n    function externalLeave() internal {\n        reentryProtector = false;\n    }\n\n}",
+  "sourcePath": "/Users/rafael/Desenv/workspaceSolidity/auth-ecommerce/contracts/ReentryProtector.sol",
+  "ast": {
+    "absolutePath": "/Users/rafael/Desenv/workspaceSolidity/auth-ecommerce/contracts/ReentryProtector.sol",
+    "exportedSymbols": {
+      "ReentryProtector": [
+        2408
+      ]
+    },
+    "id": 2409,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2383,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:3"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title help avoid recursive-call attacks.",
+        "fullyImplemented": true,
+        "id": 2408,
+        "linearizedBaseContracts": [
+          2408
+        ],
+        "name": "ReentryProtector",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 2385,
+            "name": "reentryProtector",
+            "nodeType": "VariableDeclaration",
+            "scope": 2408,
+            "src": "155:21:3",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bool",
+              "typeString": "bool"
+            },
+            "typeName": {
+              "id": 2384,
+              "name": "bool",
+              "nodeType": "ElementaryTypeName",
+              "src": "155:4:3",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bool",
+                "typeString": "bool"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 2398,
+              "nodeType": "Block",
+              "src": "773:104:3",
+              "statements": [
+                {
+                  "condition": {
+                    "argumentTypes": null,
+                    "id": 2388,
+                    "name": "reentryProtector",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 2385,
+                    "src": "787:16:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "falseBody": null,
+                  "id": 2393,
+                  "nodeType": "IfStatement",
+                  "src": "783:55:3",
+                  "trueBody": {
+                    "id": 2392,
+                    "nodeType": "Block",
+                    "src": "805:33:3",
+                    "statements": [
+                      {
+                        "expression": {
+                          "argumentTypes": null,
+                          "arguments": [],
+                          "expression": {
+                            "argumentTypes": [],
+                            "id": 2389,
+                            "name": "revert",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [
+                              2659,
+                              2660
+                            ],
+                            "referencedDeclaration": 2659,
+                            "src": "819:6:3",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_function_revert_pure$__$returns$__$",
+                              "typeString": "function () pure"
+                            }
+                          },
+                          "id": 2390,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "functionCall",
+                          "lValueRequested": false,
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "819:8:3",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_tuple$__$",
+                            "typeString": "tuple()"
+                          }
+                        },
+                        "id": 2391,
+                        "nodeType": "ExpressionStatement",
+                        "src": "819:8:3"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 2396,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 2394,
+                      "name": "reentryProtector",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 2385,
+                      "src": "847:16:3",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "hexValue": "74727565",
+                      "id": 2395,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "bool",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "866:4:3",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      },
+                      "value": "true"
+                    },
+                    "src": "847:23:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 2397,
+                  "nodeType": "ExpressionStatement",
+                  "src": "847:23:3"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 2399,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "externalEnter",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2386,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "761:2:3"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 2387,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "773:0:3"
+            },
+            "scope": 2408,
+            "src": "739:138:3",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 2406,
+              "nodeType": "Block",
+              "src": "1026:41:3",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 2404,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 2402,
+                      "name": "reentryProtector",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 2385,
+                      "src": "1036:16:3",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "hexValue": "66616c7365",
+                      "id": 2403,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "bool",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "1055:5:3",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      },
+                      "value": "false"
+                    },
+                    "src": "1036:24:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 2405,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1036:24:3"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 2407,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "externalLeave",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2400,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1014:2:3"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 2401,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1026:0:3"
+            },
+            "scope": 2408,
+            "src": "992:75:3",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "internal"
+          }
+        ],
+        "scope": 2409,
+        "src": "72:998:3"
+      }
+    ],
+    "src": "0:1070:3"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/rafael/Desenv/workspaceSolidity/auth-ecommerce/contracts/ReentryProtector.sol",
+    "exportedSymbols": {
+      "ReentryProtector": [
+        2408
+      ]
+    },
+    "id": 2409,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2383,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:3"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title help avoid recursive-call attacks.",
+        "fullyImplemented": true,
+        "id": 2408,
+        "linearizedBaseContracts": [
+          2408
+        ],
+        "name": "ReentryProtector",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 2385,
+            "name": "reentryProtector",
+            "nodeType": "VariableDeclaration",
+            "scope": 2408,
+            "src": "155:21:3",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bool",
+              "typeString": "bool"
+            },
+            "typeName": {
+              "id": 2384,
+              "name": "bool",
+              "nodeType": "ElementaryTypeName",
+              "src": "155:4:3",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bool",
+                "typeString": "bool"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 2398,
+              "nodeType": "Block",
+              "src": "773:104:3",
+              "statements": [
+                {
+                  "condition": {
+                    "argumentTypes": null,
+                    "id": 2388,
+                    "name": "reentryProtector",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 2385,
+                    "src": "787:16:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "falseBody": null,
+                  "id": 2393,
+                  "nodeType": "IfStatement",
+                  "src": "783:55:3",
+                  "trueBody": {
+                    "id": 2392,
+                    "nodeType": "Block",
+                    "src": "805:33:3",
+                    "statements": [
+                      {
+                        "expression": {
+                          "argumentTypes": null,
+                          "arguments": [],
+                          "expression": {
+                            "argumentTypes": [],
+                            "id": 2389,
+                            "name": "revert",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [
+                              2659,
+                              2660
+                            ],
+                            "referencedDeclaration": 2659,
+                            "src": "819:6:3",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_function_revert_pure$__$returns$__$",
+                              "typeString": "function () pure"
+                            }
+                          },
+                          "id": 2390,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "functionCall",
+                          "lValueRequested": false,
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "819:8:3",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_tuple$__$",
+                            "typeString": "tuple()"
+                          }
+                        },
+                        "id": 2391,
+                        "nodeType": "ExpressionStatement",
+                        "src": "819:8:3"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 2396,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 2394,
+                      "name": "reentryProtector",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 2385,
+                      "src": "847:16:3",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "hexValue": "74727565",
+                      "id": 2395,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "bool",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "866:4:3",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      },
+                      "value": "true"
+                    },
+                    "src": "847:23:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 2397,
+                  "nodeType": "ExpressionStatement",
+                  "src": "847:23:3"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 2399,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "externalEnter",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2386,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "761:2:3"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 2387,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "773:0:3"
+            },
+            "scope": 2408,
+            "src": "739:138:3",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 2406,
+              "nodeType": "Block",
+              "src": "1026:41:3",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 2404,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 2402,
+                      "name": "reentryProtector",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 2385,
+                      "src": "1036:16:3",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "hexValue": "66616c7365",
+                      "id": 2403,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "bool",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "1055:5:3",
+                      "subdenomination": null,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      },
+                      "value": "false"
+                    },
+                    "src": "1036:24:3",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 2405,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1036:24:3"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 2407,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "externalLeave",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2400,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1014:2:3"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 2401,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1026:0:3"
+            },
+            "scope": 2408,
+            "src": "992:75:3",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "internal"
+          }
+        ],
+        "scope": 2409,
+        "src": "72:998:3"
+      }
+    ],
+    "src": "0:1070:3"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+  },
+  "networks": {
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0x9f2605adf861981b730737bf1023eee1408b8916",
+      "transactionHash": "0x8f2007ec05a579b29664d46a99c42dfeeec29504a5773de2cc0f4da37d42e926"
+    }
+  },
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2018-08-27T19:00:26.539Z"
+}
