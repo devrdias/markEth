@@ -4,13 +4,19 @@ An open Marketplace, built on top of Ethereum network, using smart contracts to 
 
 The contract also has a Escrow process implemented, to prevent frauds.
 
-
 ### Main functionallities:
 * Sellers can sell products and receive in Ether
 * Buyers can buy products using Ether
 * An Escrow process will take care of releasing the Ether to buyer or seller
 * Contract owner is responsible to aprove Sellers and Arbiters for them to start using the Plataform
 * Arbiters are responsible to reslease or refund balandes to users, depending on each case.
+
+
+### Users functinalitty
+* if you are the contract Owner, you can simple login, not need to sign up
+* if you are a buyer, seller or an arbiter , you need to sign up to interact with the contracts
+* buyers don't need to be aproved by contract owner to interact with the website
+* sellers/arbiters needs to be aproved to interact with the website
 
 
 ## Getting Started
