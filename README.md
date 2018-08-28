@@ -1,4 +1,4 @@
-# Design Patter Decisions
+# Project details
 
 An open Marketplace, built on top of Ethereum network, using smart contracts to provide interaction between buyers, sellers and arbiters.
 
