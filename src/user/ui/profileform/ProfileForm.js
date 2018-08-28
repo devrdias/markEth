@@ -30,17 +30,13 @@ class ProfileForm extends Component {
   }
 
   render() {
-    const ipfs = `https://ipfs.infura.io/ipfs/${this.state.profilePicture}`;
-    console.log(this.state.profilePicture);
-    // const ipfs = 'https://ipfs.infura.io/ipfs/QmPqGdSKuHUDwK3Yj9o5LzqvW1w1ha8xWGmRaJ1rEwXmhY';
     return(
-    // return(
       <form className="pure-form pure-form-stacked" onSubmit={this.handleSubmit.bind(this)}>
         <fieldset>
           <label htmlFor="name">Name: <b>{this.state.name}</b></label>
           <label htmlFor="email">email: <b>{this.state.email}</b></label>
           <label htmlFor="phoneNumber">Phone: <b>{this.state.phoneNumber}</b></label>
-          Profile Picture: <p><img src={ipfs}/></p>
+          <label htmlFor="profilePicture">Profile Picture: <b>{this.state.profilePicture}</b></label>
           <label htmlFor="userType">User Type: <b>{this.state.userType}</b></label>
           <label htmlFor="userState">User State: <b>{this.state.userState}</b></label>
           <br/>

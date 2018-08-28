@@ -4,7 +4,7 @@ import { routerActions } from 'react-router-redux'
 // Layout Component Wrappers
 
 export const UserIsAuthenticated = UserAuthWrapper({
-  authSelector: state => state.user.data.userType,
+  authSelector: state => state.user.data.userType !== null,
   redirectAction: routerActions.replace,
   failureRedirectPath: '/signup', // '/login' by default.
   wrapperDisplayName: 'UserIsAuthenticated',
@@ -54,9 +54,9 @@ export const VisibleOnlyOwner = UserAuthWrapper({
   FailureComponent: null
 })
 
-export const VisibleOnlyAdmin = UserAuthWrapper({
+export const VisibleOnlyArbiter = UserAuthWrapper({
   authSelector: state => state.user.data,
-  wrapperDisplayName: 'VisibleOnlyAdmin',
+  wrapperDisplayName: 'VisibleOnlyArbiter',
   predicate: data => data.userType === 'Arbiter',
   FailureComponent: null
 })

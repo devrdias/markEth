@@ -1,5 +1,7 @@
 {
     "userData" : [
+        {},
+        {},
         {
             "id": 1,
             "address" : "0x first buyer",
@@ -73,7 +75,7 @@
             "email": "first@arbiter.com",
             "phoneNumber": "111111111111111111",
             "profilePicture": "ffffffffff",
-            "userType": "Seller",
+            "userType": "Arbiter",
             "userState": "Approved",
             "exists": true
         },
@@ -84,15 +86,16 @@
             "email": "second@arbiter.com",
             "phoneNumber": "22222222",
             "profilePicture": "ffffffffff",
-            "userType": "Seller",
+            "userType": "Arbiter",
             "userState": "Approved",
             "exists": true
         }
     ],
     "productData" : [
+        {},
         {
             "id": 1,
-            "store_id" : 1, 
+            "store_id" : 1,  
             "name": "test_name1",
             "category": "cate1",
             "imageLink": "test_iamgeLink_1",
@@ -176,6 +179,7 @@
         }
     ],
     "storeData" : [
+        {},
         {
             "id" : 1,
             "storeAddress": "0xaaaaaaaaaaaaaaa",
@@ -198,8 +202,11 @@
         }
     ],
     "myStoreID" : 0,
+    "myID": 1,
     "escrowData" : [
+        {},
         {
+            "id": 1,
             "product_id": 3,
             "buyer_id": 1,
             "seller_id": 4,
@@ -210,8 +217,9 @@
             "fundsDisbursed": false
         },
         {
+            "id": 2,
             "product_id": 5,
-            "buyer_id": 2,
+            "buyer_id": 1,
             "seller_id": 5,
             "arbiter_id": 8,
             "amount": "2.3 ETH",
@@ -220,6 +228,7 @@
             "fundsDisbursed": false
         },
         {
+            "id": 3,
             "product_id": 6,
             "buyer_id": 2,
             "seller_id": 5,

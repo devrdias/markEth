@@ -31,7 +31,7 @@ contract Authentication is Ownable, Killable, ReentryProtector {
         bytes32 name;
         bytes32 email;
         bytes32 phoneNumber;
-        string profilePicture;
+        bytes32 profilePicture;
         UserType userType;
         UserState userState;
         bool exists;
@@ -51,9 +51,11 @@ contract Authentication is Ownable, Killable, ReentryProtector {
     modifier onlyValidName(bytes32 name) { require(name.length > 0, "Invalid name"); _; }
     modifier onlyValidEmail(bytes32 email) { require(!(email == 0x0), "Invalid email"); _; }
     modifier onlyValidPhone(bytes32 phoneNumber) { require(!(phoneNumber == 0x0), "Invalid phone number"); _; }
+    modifier onlyValidProfilePicture(bytes32 profilePicture) { require(!(profilePicture == 0x0), "Invalid profile picture"); _; }
     modifier onlyPendingState(address user) { require( users[user].userState == UserState.Pending, "User not on Pending state."); _; }
     modifier onlyApprovedState() { require( users[msg.sender].userState == UserState.Approved, "User not on Approved state."); _; }
     modifier onlySeller { require(users[msg.sender].userType == UserType.Seller, "User is not an seller."); _; }
+    // modifier doesNotHaveStore { require(storesBySellers[msg.sender] !=  0x0 , "User already has a store"); _; }
     modifier requireArbiter(address _arbiter) { require( users[_arbiter].userType == UserType.Arbiter , "A store require an arbiter."); _; }
 
     event LogDonnationReceived(address sender, uint value);
@@ -69,8 +71,8 @@ contract Authentication is Ownable, Killable, ReentryProtector {
     function login() 
         external
         view
-        // onlyExistingUser(msg.sender)
-        returns (bytes32, bytes32, bytes32, string, UserType, UserState) 
+        onlyExistingUser(msg.sender)
+        returns (bytes32, bytes32, bytes32, bytes32, UserType, UserState) 
     {
         if (users[msg.sender].exists) {
             return (
@@ -88,7 +90,7 @@ contract Authentication is Ownable, Killable, ReentryProtector {
                 stringToBytes32("Owner"),
                 stringToBytes32("owner@owner.com"),
                 stringToBytes32("12345678"),
-                "ownerImage",
+                stringToBytes32("ownerImage"),
                 UserType.Owner,
                 UserState.Approved
             );
@@ -129,6 +131,10 @@ contract Authentication is Ownable, Killable, ReentryProtector {
     )
         external
         payable
+        // onlyValidName(_name)
+        // onlyValidEmail(_email)
+        // onlyValidPhone(_phoneNumber)
+        // onlyValidProfilePicture(_profilePicture)
         returns (uint) 
     {
 
@@ -139,12 +145,12 @@ contract Authentication is Ownable, Killable, ReentryProtector {
         newbie.name = stringToBytes32(_name);
         newbie.email = stringToBytes32(_email);
         newbie.phoneNumber = stringToBytes32(_phoneNumber);
-        newbie.profilePicture = _profilePicture;
+        newbie.profilePicture = stringToBytes32(_profilePicture);
         
         require(newbie.name.length > 0, "Invalid name");
         require(newbie.email.length > 0, "Invalid email");
         require(newbie.phoneNumber.length > 0, "Invalid phoneNumber");
-        // require(newbie.profilePicture.length > 0, "Invalid profilePicture");
+        require(newbie.profilePicture.length > 0, "Invalid profilePicture");
         
         newbie.userType = _userType;
         newbie.exists = true;
@@ -174,15 +180,16 @@ contract Authentication is Ownable, Killable, ReentryProtector {
         bytes32 _name,
         bytes32 _email,
         bytes32 _phoneNumber,
-        string _profilePicture
+        bytes32 _profilePicture
     )
         external
         payable
         onlyValidName(_name)
         onlyValidEmail(_email)
         onlyValidPhone(_phoneNumber)
+        onlyValidProfilePicture(_profilePicture)
         onlyExistingUser(msg.sender)
-        returns (bytes32, bytes32, bytes32, string) 
+        returns (bytes32, bytes32, bytes32, bytes32) 
     {
         externalEnter();
         emit LogUserUpdated(msg.sender);
@@ -252,7 +259,7 @@ contract Authentication is Ownable, Killable, ReentryProtector {
 
     /** @dev user effectivelly request withdraw
      */
-    function withdraw() 
+    function withdraw()  
         external 
         payable 
         onlyOwner
@@ -279,8 +286,10 @@ contract Authentication is Ownable, Killable, ReentryProtector {
         payable 
         onlySeller
         onlyApprovedState
+        // doesNotHaveStore
         onlyValidName(_name)
         onlyValidEmail(_email)
+        onlyValidProfilePicture(_storeImage)
         requireArbiter(_arbiter)
         returns (bool) 
     {
@@ -305,7 +314,7 @@ contract Authentication is Ownable, Killable, ReentryProtector {
         external
         view
         onlyExistingUserID(_id)
-        returns ( address, bytes32, bytes32, bytes32, string, UserType, UserState) 
+        returns ( address, bytes32, bytes32, bytes32, bytes32, UserType, UserState) 
     {
         User memory user = users[usersById[_id]]; // load product from memory
         return (

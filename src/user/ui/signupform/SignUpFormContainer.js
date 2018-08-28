@@ -9,7 +9,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onSignUpFormSubmit: (name, email, phoneNumber, profilePicture, userType) => {
-      debugger;
       dispatch(signUpUser(name, email, phoneNumber, profilePicture, userType))
     }
   }
