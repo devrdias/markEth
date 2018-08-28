@@ -11,26 +11,6 @@ contract Ecommerce is Ownable, ReentryProtector {
     
     using SafeMath for uint256;
 
-    function  addStore(
-        bytes32 _name, 
-        bytes32 _email,
-        address _arbiter,
-        bytes32 _storeFrontImage,
-        address _sellerAddress
-    )
-        external 
-        payable
-        notHaveStore(_sellerAddress)
-        returns (bool)
-    {
-        externalEnter();
-        storesCount = storesCount.add(1);
-        storesById[storesCount] = Store(_sellerAddress, _name, _email, _arbiter, _storeFrontImage, 0/*msg.value*/, 0);
-        storesBySellers[_sellerAddress] = storesCount;
-        externalLeave();
-        return true;
-    }
-
     // ===================================================
     // Fallback
     // ===================================================        
@@ -139,6 +119,36 @@ contract Ecommerce is Ownable, ReentryProtector {
     event LogRefundAmountToBuyer(bytes32 message, uint productId, address caller);
     event LogWithdraw(bytes32 message, uint productId, address caller);
     event LogProductUpdated(bytes32 message, uint productId);
+
+
+ /** @dev Add store to a seller
+      * @dev this function should be used in conjunt with addProductDetail, to update imageLink and descLink
+      * @param _name 
+      * @param _email
+      * @param _arbiter
+      * @param _storeFrontImage  
+      * @param _sellerAddress
+      * @return bool
+      */    
+    function  addStore(
+        bytes32 _name, 
+        bytes32 _email,
+        address _arbiter,
+        bytes32 _storeFrontImage,
+        address _sellerAddress
+    )
+        external 
+        payable
+        notHaveStore(_sellerAddress)
+        returns (bool)
+    {
+        externalEnter();
+        storesCount = storesCount.add(1);
+        storesById[storesCount] = Store(_sellerAddress, _name, _email, _arbiter, _storeFrontImage, 0/*msg.value*/, 0);
+        storesBySellers[_sellerAddress] = storesCount;
+        externalLeave();
+        return true;
+    }
 
 
    /** @dev Add product to stores mapping - imageLink and descLink are initialized with blanks,
