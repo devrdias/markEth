@@ -51,11 +51,9 @@ contract Authentication is Ownable, Killable, ReentryProtector {
     modifier onlyValidName(bytes32 name) { require(name.length > 0, "Invalid name"); _; }
     modifier onlyValidEmail(bytes32 email) { require(!(email == 0x0), "Invalid email"); _; }
     modifier onlyValidPhone(bytes32 phoneNumber) { require(!(phoneNumber == 0x0), "Invalid phone number"); _; }
-    // modifier onlyValidProfilePicture(string profilePicture) { require(!(profilePicture == 0x0), "Invalid profile picture"); _; }
     modifier onlyPendingState(address user) { require( users[user].userState == UserState.Pending, "User not on Pending state."); _; }
     modifier onlyApprovedState() { require( users[msg.sender].userState == UserState.Approved, "User not on Approved state."); _; }
     modifier onlySeller { require(users[msg.sender].userType == UserType.Seller, "User is not an seller."); _; }
-    // modifier doesNotHaveStore { require(storesBySellers[msg.sender] !=  0x0 , "User already has a store"); _; }
     modifier requireArbiter(address _arbiter) { require( users[_arbiter].userType == UserType.Arbiter , "A store require an arbiter."); _; }
 
     event LogDonnationReceived(address sender, uint value);
@@ -131,10 +129,6 @@ contract Authentication is Ownable, Killable, ReentryProtector {
     )
         external
         payable
-        // onlyValidName(_name)
-        // onlyValidEmail(_email)
-        // onlyValidPhone(_phoneNumber)
-        // onlyValidProfilePicture(_profilePicture)
         returns (uint) 
     {
 
@@ -187,7 +181,6 @@ contract Authentication is Ownable, Killable, ReentryProtector {
         onlyValidName(_name)
         onlyValidEmail(_email)
         onlyValidPhone(_phoneNumber)
-        // onlyValidProfilePicture(_profilePicture)
         onlyExistingUser(msg.sender)
         returns (bytes32, bytes32, bytes32, string) 
     {
@@ -286,10 +279,8 @@ contract Authentication is Ownable, Killable, ReentryProtector {
         payable 
         onlySeller
         onlyApprovedState
-        // doesNotHaveStore
         onlyValidName(_name)
         onlyValidEmail(_email)
-        // onlyValidProfilePicture(_storeImage)
         requireArbiter(_arbiter)
         returns (bool) 
     {
@@ -297,7 +288,7 @@ contract Authentication is Ownable, Killable, ReentryProtector {
         bool addStoreResult = ecommerce.addStore(_name, _email, _arbiter, _storeImage, msg.sender);
         if(addStoreResult)
         {
-            sellersCount = sellersCount.add(1);
+            sellersCount = sellersCount.add(1); //???
             sellersById[sellersCount] = msg.sender;
             emit LogCreateStore("New store created", msg.sender, msg.sender);
         }
