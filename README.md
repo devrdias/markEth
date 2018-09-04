@@ -56,7 +56,9 @@ Run the project
 npm start
 ```
 
-``` It's recommended to starat Ganache with gasLimit of 800000000 to migrate contracts
+```
+It's recommended to starat Ganache with gasLimit of 800000000 to migrate contracts
+```
 
 
 ## Running the tests
