@@ -111,7 +111,7 @@ class Dashboard extends Component {
           <hr/>
         </div>
         <div className="row">
-          <div className="col-md-12">
+          <div className="col-md-15">
             <h3>Users</h3>
             <Table celled structured textAlign = 'center'>
               <Table.Header>

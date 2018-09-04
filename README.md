@@ -45,7 +45,7 @@ npm install
 ```
 Run ganache-cli on port 8545
 ```
-ganache-cli 
+ganache-cli --gasLimit 800000000
 ```
 Migrate all contracts to your ganache running instance
 ```
@@ -55,6 +55,8 @@ Run the project
 ```
 npm start
 ```
+
+``` It's recommended to starat Ganache with gasLimit of 800000000 to migrate contracts
 
 
 ## Running the tests

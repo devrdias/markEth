@@ -49,7 +49,7 @@ contract Escrow  {
     
     
     function escrowDetails() public view returns (address, address, address, uint, bool, uint, uint) {
-        return (buyer, seller, arbiter, this.balance, fundsDisbursed, releaseCount, refundCount);
+        return (buyer, seller, arbiter, address(this).balance, fundsDisbursed, releaseCount, refundCount);
     }
     
     function releaseAmountToSeller(address _caller) public {

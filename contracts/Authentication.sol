@@ -31,7 +31,7 @@ contract Authentication is Ownable, Killable, ReentryProtector {
         bytes32 name;
         bytes32 email;
         bytes32 phoneNumber;
-        bytes32 profilePicture;
+        string profilePicture;
         UserType userType;
         UserState userState;
         bool exists;
@@ -46,12 +46,12 @@ contract Authentication is Ownable, Killable, ReentryProtector {
     uint public usersCount;  
     uint public sellersCount;   
 
-    modifier onlyExistingUser(address user) { require(users[user].exists, "User is not registered"); _; }
+    modifier onlyExistingUser(address user) { require( owner == msg.sender || users[user].exists, "User is not registered"); _; }
     modifier onlyExistingUserID(uint userid) { require(usersById[userid] != 0, "User ID is not registered"); _; }
     modifier onlyValidName(bytes32 name) { require(name.length > 0, "Invalid name"); _; }
     modifier onlyValidEmail(bytes32 email) { require(!(email == 0x0), "Invalid email"); _; }
     modifier onlyValidPhone(bytes32 phoneNumber) { require(!(phoneNumber == 0x0), "Invalid phone number"); _; }
-    modifier onlyValidProfilePicture(bytes32 profilePicture) { require(!(profilePicture == 0x0), "Invalid profile picture"); _; }
+    // modifier onlyValidProfilePicture(bytes32 profilePicture) { require(!(profilePicture == 0x0), "Invalid profile picture"); _; }
     modifier onlyPendingState(address user) { require( users[user].userState == UserState.Pending, "User not on Pending state."); _; }
     modifier onlyApprovedState() { require( users[msg.sender].userState == UserState.Approved, "User not on Approved state."); _; }
     modifier onlySeller { require(users[msg.sender].userType == UserType.Seller, "User is not an seller."); _; }
@@ -72,29 +72,28 @@ contract Authentication is Ownable, Killable, ReentryProtector {
         external
         view
         onlyExistingUser(msg.sender)
-        returns (bytes32, bytes32, bytes32, bytes32, UserType, UserState) 
+        returns (bytes32, bytes32, bytes32, string, UserType, UserState) 
     {
-        if (users[msg.sender].exists) {
-            return (
-                    users[msg.sender].name,
-                    users[msg.sender].email,
-                    users[msg.sender].phoneNumber,
-                    users[msg.sender].profilePicture,
-                    users[msg.sender].userType,
-                    users[msg.sender].userState
-                );
-        }
         if (owner == msg.sender) 
         {
             return (
                 stringToBytes32("Owner"),
                 stringToBytes32("owner@owner.com"),
                 stringToBytes32("12345678"),
-                stringToBytes32("ownerImage"),
+                "QmYjh5NsDc6LwU3394NbB42WpQbGVsueVSBmod5WACvpte",
                 UserType.Owner,
                 UserState.Approved
             );
         } 
+
+        return (
+            users[msg.sender].name,
+            users[msg.sender].email,
+            users[msg.sender].phoneNumber,
+            users[msg.sender].profilePicture,
+            users[msg.sender].userType,
+            users[msg.sender].userState
+        );
     }
 
     /** @dev convert strint to bytes32
@@ -145,12 +144,12 @@ contract Authentication is Ownable, Killable, ReentryProtector {
         newbie.name = stringToBytes32(_name);
         newbie.email = stringToBytes32(_email);
         newbie.phoneNumber = stringToBytes32(_phoneNumber);
-        newbie.profilePicture = stringToBytes32(_profilePicture);
+        newbie.profilePicture = _profilePicture;
         
         require(newbie.name.length > 0, "Invalid name");
         require(newbie.email.length > 0, "Invalid email");
         require(newbie.phoneNumber.length > 0, "Invalid phoneNumber");
-        require(newbie.profilePicture.length > 0, "Invalid profilePicture");
+        // require(newbie.profilePicture.length > 0, "Invalid profilePicture");
         
         newbie.userType = _userType;
         newbie.exists = true;
@@ -180,16 +179,16 @@ contract Authentication is Ownable, Killable, ReentryProtector {
         bytes32 _name,
         bytes32 _email,
         bytes32 _phoneNumber,
-        bytes32 _profilePicture
+        string _profilePicture
     )
         external
         payable
         onlyValidName(_name)
         onlyValidEmail(_email)
         onlyValidPhone(_phoneNumber)
-        onlyValidProfilePicture(_profilePicture)
+        // onlyValidProfilePicture(_profilePicture)
         onlyExistingUser(msg.sender)
-        returns (bytes32, bytes32, bytes32, bytes32) 
+        returns (bytes32, bytes32, bytes32, string) 
     {
         externalEnter();
         emit LogUserUpdated(msg.sender);
@@ -289,7 +288,7 @@ contract Authentication is Ownable, Killable, ReentryProtector {
         // doesNotHaveStore
         onlyValidName(_name)
         onlyValidEmail(_email)
-        onlyValidProfilePicture(_storeImage)
+        // onlyValidProfilePicture(_storeImage)
         requireArbiter(_arbiter)
         returns (bool) 
     {
@@ -297,7 +296,7 @@ contract Authentication is Ownable, Killable, ReentryProtector {
         bool addStoreResult = ecommerce.addStore(_name, _email, _arbiter, _storeImage, msg.sender);
         if(addStoreResult)
         {
-            sellersCount = sellersCount.add(1); //???
+            sellersCount = sellersCount.add(1); 
             sellersById[sellersCount] = msg.sender;
             emit LogCreateStore("New store created", msg.sender, msg.sender);
         }
@@ -314,7 +313,7 @@ contract Authentication is Ownable, Killable, ReentryProtector {
         external
         view
         onlyExistingUserID(_id)
-        returns ( address, bytes32, bytes32, bytes32, bytes32, UserType, UserState) 
+        returns ( address, bytes32, bytes32, bytes32, string, UserType, UserState) 
     {
         User memory user = users[usersById[_id]]; // load product from memory
         return (

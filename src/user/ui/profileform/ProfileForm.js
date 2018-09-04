@@ -30,13 +30,17 @@ class ProfileForm extends Component {
   }
 
   render() {
+    const image = "https://gateway.ipfs.io/ipfs/" + this.state.profilePicture;
+    console.log('imagem ' , image);
     return(
       <form className="pure-form pure-form-stacked" onSubmit={this.handleSubmit.bind(this)}>
         <fieldset>
+          <img alt="Profile picture" src={image}/>
           <label htmlFor="name">Name: <b>{this.state.name}</b></label>
           <label htmlFor="email">email: <b>{this.state.email}</b></label>
           <label htmlFor="phoneNumber">Phone: <b>{this.state.phoneNumber}</b></label>
-          <label htmlFor="profilePicture">Profile Picture: <b>{this.state.profilePicture}</b></label>
+          {/* <b>{this.state.profilePicture}</b> */}
+          
           <label htmlFor="userType">User Type: <b>{this.state.userType}</b></label>
           <label htmlFor="userState">User State: <b>{this.state.userState}</b></label>
           <br/>

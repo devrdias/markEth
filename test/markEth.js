@@ -26,7 +26,7 @@ contract('Authentication', async ([ owner, buyer, seller, arbiter ]) => {
 	console.log('Contract seller  ', seller);
 	console.log('Contract arbiter ', arbiter);
 
-	beforeEach('setup contract for each test', async () => {
+	before('setup contract for each test', async () => {
 		ecommerce = await Ecommerce.new();
 
 		authentication = await Authentication.new(ecommerce.address);
@@ -34,7 +34,7 @@ contract('Authentication', async ([ owner, buyer, seller, arbiter ]) => {
 		console.log('ecommerce.address     : ', ecommerce.address);
 		console.log('authentication.address: ', authentication.address);
 	});
-/*
+
 	it('contract has an owner', async () => {
 		assert.equal(await authentication.owner(), owner);
 	});
@@ -44,7 +44,7 @@ contract('Authentication', async ([ owner, buyer, seller, arbiter ]) => {
 		const authAddress = await authentication.address;
 		assert.equal(web3.eth.getBalance(authAddress).toNumber(), web3.toWei(1));
 	});
-
+/*
 	it('login as Owner', async () => {
 		const [ name, email, phoneNumber, profilePicture, userType, userState ] = await authentication.login({
 			from: owner
@@ -78,7 +78,7 @@ contract('Authentication', async ([ owner, buyer, seller, arbiter ]) => {
 		assert.equal(expectedName, web3.toUtf8(name), 'User name does not match.');
 		assert.equal(expectedEmail, web3.toUtf8(email), 'User email does not match.');
 		// assert.equal(expetectPhoneNumber, web3.toBN(phoneNumber) , 'User phone number does not match.');
-		assert.equal(expectedProfilePicture, web3.toUtf8(profilePicture), 'User profile picture does not match.');
+		assert.equal(expectedProfilePicture, profilePicture, 'User profile picture does not match.');
 		// assert.equal(expectedUserType, userType, 'User Type does not match.');
 		// assert.equal(expectedUserState, userState, 'User State does not match.');
 	});
@@ -104,17 +104,17 @@ contract('Authentication', async ([ owner, buyer, seller, arbiter ]) => {
 			from: seller
 		});
 
-		console.log("^^^^^^^^^^^ name : ", name);
-		console.log("^^^^^^^^^^^ email : ", email);
-		console.log("^^^^^^^^^^^ phoneNumber : ", phoneNumber);
-		console.log("^^^^^^^^^^^ profilePicture : ", profilePicture);
-		console.log("^^^^^^^^^^^ userType : ", userType);
-		console.log("^^^^^^^^^^^ userState : ", userState);
+		// console.log("^^^^^^^^^^^ name : ", name);
+		// console.log("^^^^^^^^^^^ email : ", email);
+		// console.log("^^^^^^^^^^^ phoneNumber : ", phoneNumber);
+		// console.log("^^^^^^^^^^^ profilePicture : ", profilePicture);
+		// console.log("^^^^^^^^^^^ userType : ", userType);
+		// console.log("^^^^^^^^^^^ userState : ", userState);
 
 		assert.equal(expectedName, web3.toUtf8(name), 'User name does not match.');
 		assert.equal(expectedEmail, web3.toUtf8(email), 'User email does not match.');
-		// assert.equal(expetectPhoneNumber, web3.toBN(phoneNumber) , 'User phone number does not match.');
-		assert.equal(expectedProfilePicture, web3.toUtf8(profilePicture), 'User profile picture does not match.');
+		assert.equal(expetectPhoneNumber, web3.toUtf8(phoneNumber) , 'User phone number does not match.');
+		assert.equal(expectedProfilePicture, profilePicture, 'User profile picture does not match.');
 		assert.equal(expectedUserType, userType.c[0], 'User Type does not match.');
 		assert.equal(expectedUserState, userState.c[0], 'User State does not match.');
 	});
@@ -181,14 +181,14 @@ contract('Authentication', async ([ owner, buyer, seller, arbiter ]) => {
 		await authentication.updateUserState(seller, expectedUserState, { from: owner });
 
 		const userID = await authentication.usersCount.call();
-		console.log("******* userID : ", userID);
+		// console.log("******* userID : ", userID);
 		const [ address, name, email, phoneNumber, profilePicture, userType, userState ] = await authentication.getUser(userID.toNumber());
-		console.log("******* address : ", address);
-		console.log("******* name : ", name);
-		console.log("******* email : ", email);
-		console.log("******* phoneNumber : ", phoneNumber);
-		console.log("******* profilePicture : ", profilePicture);
-		console.log("******* userState : ", userState);
+		// console.log("******* address : ", address);
+		// console.log("******* name : ", name);
+		// console.log("******* email : ", email);
+		// console.log("******* phoneNumber : ", phoneNumber);
+		// console.log("******* profilePicture : ", profilePicture);
+		// console.log("******* userState : ", userState);
 		assert.equal(expectedUserState, userState.c[0], 'Seller not approved');
 
 		// create an arbiter for the store
@@ -299,48 +299,5 @@ contract('Authentication', async ([ owner, buyer, seller, arbiter ]) => {
 	   	});
 
 	});
-	
 
-/*	it('list users', async () => {
-		//let expectedName = '0x12e18';
-		let expectedName = 'asdfasdfasdf';
-		let expectedEmail = 'seller@test.com';
-		let expectedPhoneNumber = '987654321';
-		let expectedProfilePicture = 'a987654321';
-		let expectedUserType = 1; // Seller
-		let expectedUserState = 1; // Approved
-
-		await authentication.signup(
-			expectedName,
-			expectedEmail,
-			expectedPhoneNumber,
-			expectedProfilePicture,
-			expectedUserType,
-			{ from: seller }
-		);
-
-		const usersCount = await authentication.usersCount.call();
-		console.log('usersCount: ', usersCount.toNumber());
-
-		let userTypes = ["Buyer", "Seller", "Arbiter", "Owner"];
-		let userStatus = ["Pending", "Approved"];
-		
-		let obj = {};
-		for (let i = 1; i <= usersCount; i++) {
-			const [ address, name, email, phoneNumber, profilePicture, userType, userState ] = await authentication.getUser(i);
-			obj = {
-				id : i,
-				address: address,
-				name: web3.toUtf8(name),
-				email: web3.toUtf8(email),
-				phoneNumber:web3.toUtf8(phoneNumber),
-				profilePicture: web3.toUtf8(profilePicture),
-				userType: userTypes[userType.toNumber()],
-				userState: userStatus[userState.toNumber()]
-			};
-			console.log(obj);
-		}
-		assert.equal(obj.name, expectedName, 'Failed on list users');
-	});
-*/
 });

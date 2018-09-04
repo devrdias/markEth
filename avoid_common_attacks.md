@@ -25,7 +25,7 @@ Avoid state changes after the call. This pattern is also sometimes known as the 
 # Solidity specific recommendations
 
 ### Enforce invariants with assert()
-assert(this.balance >= totalSupply);
+assert(address(this).balance >= totalSupply);
 
 ### Check data length in fallback functions
 require(msg.data.length == 0); 
@@ -33,4 +33,3 @@ require(msg.data.length == 0);
 
 ### Explicitly mark visibility in functions and state variables
 External functions have external visibility, instead of public. External functions save gas and are more performatic than public.
-

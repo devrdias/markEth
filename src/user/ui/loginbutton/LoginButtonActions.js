@@ -87,7 +87,7 @@ let getCommonData = async function(authenticationInstance, coinbase){
         name: web3.toUtf8(name),
         email: web3.toUtf8(email),
         phoneNumber:web3.toUtf8(phoneNumber),
-        profilePicture: web3.toUtf8(profilePicture),
+        profilePicture: profilePicture,
         userType: USER_TYPES[userType.toNumber()],
         userState: USER_STATUS[userState.toNumber()]
       };
@@ -269,7 +269,7 @@ export function loginUser() {
               name: web3.toUtf8(name),
               email: web3.toUtf8(email),
               phoneNumber: web3.toUtf8(phoneNumber),
-              profilePicture: web3.toUtf8(profilePicture),
+              profilePicture: profilePicture,
               userType: userTypes[userType.toNumber()],
               userState: userStatus[userState.toNumber()]
             };
